@@ -1,3 +1,4 @@
+<script setup lang="ts"></script>
 <template>
   <div
     class="align-center flex h-screen w-screen flex-col justify-center gap-10 self-center bg-gray-800"

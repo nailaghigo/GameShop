@@ -1,10 +1,6 @@
 <script setup lang="ts">
 const route = useRoute();
 const game = getGame(route.params.gameId as string);
-
-console.log(game);
-
-console.log(route);
 </script>
 
 <template>

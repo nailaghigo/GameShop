@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import _ from 'lodash';
+import { Game } from '~~/types/game';
 
 const games = getGames();
+
+const x = '100%';
 
 let input = ref('');
 
@@ -27,8 +30,12 @@ onMounted(() => {
   >
     Go to Home</NuxtLink
   >
-
   <div class="flex w-screen flex-col justify-center">
+    <Carousel
+      :items="(games as Game[])"
+      :container-width="x"
+      :container-height="600"
+    />
     <div class="flex w-full justify-center">
       <input
         class="m-5 w-96 max-w-2xl justify-center rounded-md border-2 border-gray-600 p-1"
@@ -47,7 +54,7 @@ onMounted(() => {
             <a href="#">
               <img
                 class="rounded-t-lg p-8"
-                :src="game.images[0].url"
+                :src="game.images[0].urlVertical"
                 :alt="game.images[0].alt"
               />
             </a>
