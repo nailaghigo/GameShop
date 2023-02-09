@@ -31,7 +31,7 @@ function next() {
   if (transitioning.value) return;
   transitioning.value = true;
   transition.value = 'left';
-  currentIndex.value = (currentIndex.value + 1) % games.length;
+  currentIndex.value = (currentIndex.value + 1) % props.items.length;
   setTimeout(() => {
     transitioning.value = false;
   }, 500);
@@ -41,7 +41,8 @@ function prev() {
   if (transitioning.value) return;
   transitioning.value = true;
   transition.value = 'right';
-  currentIndex.value = (currentIndex.value + games.length - 1) % games.length;
+  currentIndex.value =
+    (currentIndex.value + props.items.length - 1) % props.items.length;
 
   // Is this a recomended way of doing this? Maybe adding an event listener is better but I have no idea.
   // Could I add an event listener to the container and not each individual image?
@@ -52,31 +53,52 @@ function prev() {
 </script>
 
 <template>
-  <div class="relative inline-flex flex-col items-center">
+  <div class="relative mb-6 inline-flex">
     <!-- Carousel container -->
     <div
-      class="relative overflow-hidden bg-gray-900"
+      class="relative overflow-hidden bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black"
       :style="{ width: containerWidth, height: containerHeight + 'px' }"
     >
       <transition-group :name="transition" class="relative">
         <NuxtLink
           :to="`/store/${game.id}`"
-          class="h-full w-full"
-          v-for="(game, index) in games"
+          class="flex h-full w-full flex-row"
+          v-for="(game, index) in props.items"
           :key="index"
           v-show="index === currentIndex"
         >
           <img
             :src="game.images[0].urlHorizontal"
-            class="h-full w-full object-cover"
+            class="flex h-full w-3/4 object-contain"
           />
+          <div class="align-center m-10 flex w-1/4 flex-col justify-between">
+            <p class="text-white">
+              {{ game.title }}
+            </p>
+            <div v-if="game.price > 0" class="text-white">
+              <span :class="game.discountPercentage > 0 ? 'line-through' : ''">
+                {{ game.price }}$
+              </span>
+              <span v-if="game.discountPercentage > 0">
+                {{ (game.price * (game.discountPercentage / 100)).toFixed(2) }}$
+              </span>
+            </div>
+            <p
+              v-if="game.price === 0"
+              class="text-white"
+              :class="game.discountPercentage > 0 ? 'line-through' : ''"
+            >
+              FREE
+            </p>
+            <p class="text-white">{{ game.discountPercentage }}% dcto</p>
+          </div>
         </NuxtLink>
       </transition-group>
       <!-- Controls -->
-      <button class="controls left-[3%]" @click="prev">
-        <Icon name="ic:baseline-chevron-left" size="40" />
+      <button class="controls left-[3%] shadow-2xl" @click="prev">
+        <Icon name="ic:baseline-chevron-left " size="40" />
       </button>
-      <button class="controls right-[3%]" @click="next">
+      <button class="controls right-[3%] shadow-2xl" @click="next">
         <Icon name="ic:baseline-chevron-right" size="40" />
       </button>
       <!-- indexes -->

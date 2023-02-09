@@ -4,18 +4,27 @@ import { Game } from '~~/types/game';
 
 const games = getGames();
 
-const x = '100%';
+const imgPercWidth = '100%';
 
 let input = ref('');
-
-function filteredList() {
-  return games.filter((game) =>
-    game.title.toLowerCase().includes(input.value.toLowerCase())
-  );
-}
+let showCarousel = ref(true);
+let gamesList = ref<Game[]>([]);
+let carouselGames = ref<Game[]>(
+  games.filter((game) => game.discountPercentage > 0)
+);
+let showSearchTitle = ref(false);
 
 const debouncedSearch = _.debounce(() => {
-  console.log(`Searching: ${input.value}`);
+  if (input.value !== '') {
+    showCarousel.value = false;
+    showSearchTitle.value = true;
+  } else {
+    showCarousel.value = true;
+    showSearchTitle.value = false;
+  }
+  gamesList.value = games.filter((game) =>
+    game.title.toLowerCase().includes(input.value.toLowerCase())
+  );
 }, 500);
 
 onMounted(() => {
@@ -31,11 +40,6 @@ onMounted(() => {
     Go to Home</NuxtLink
   >
   <div class="flex w-screen flex-col justify-center">
-    <Carousel
-      :items="(games as Game[])"
-      :container-width="x"
-      :container-height="600"
-    />
     <div class="flex w-full justify-center">
       <input
         class="m-5 w-96 max-w-2xl justify-center rounded-md border-2 border-gray-600 p-1"
@@ -45,11 +49,18 @@ onMounted(() => {
         @input="debouncedSearch"
       />
     </div>
+    <Carousel
+      v-if="showCarousel && carouselGames.length >= 3"
+      :items="carouselGames"
+      :container-width="imgPercWidth"
+      :container-height="600"
+    />
+    <h2 v-if="showSearchTitle">Estás buscando: {{ input }}</h2>
     <ul class="flex w-screen flex-wrap justify-center gap-5">
-      <li v-for="game in filteredList()" class="mb-3">
+      <li v-for="game in gamesList" class="mb-3">
         <NuxtLink :to="`/store/${game.id}`">
           <div
-            class="max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800"
+            class="max-w-sm rounded-lg border border-gray-200 bg-white shadow hover:bg-gray-700 dark:border-gray-700 dark:bg-gray-800"
           >
             <a href="#">
               <img
@@ -81,7 +92,7 @@ onMounted(() => {
     </ul>
     <div
       class="flex justify-center text-red-500"
-      v-if="input && !filteredList().length"
+      v-if="input && !gamesList.length"
     >
       <p>No results found!</p>
     </div>

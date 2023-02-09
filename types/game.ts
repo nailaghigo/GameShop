@@ -8,7 +8,7 @@ type Image = {
 export type Game = {
   id: string;
   title: string;
-  releaseDate: Date;
+  releaseDate: Date | string;
   price: number;
   discountPercentage: number;
   images: Image[];
