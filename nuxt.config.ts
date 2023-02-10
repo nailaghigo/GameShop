@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     'nuxt-headlessui',
     '@pinia/nuxt',
     '@vueuse/nuxt',
+    'nuxt-icon',
   ],
 
   imports: {

@@ -82,7 +82,7 @@ export default [
     discountPercentage: 40,
     images: [
       {
-        urlVertical: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSpCSVoMTWaYmco6k13xDhzFS1ChF_mRUwqA&usqp=CAU",
+        urlVertical: "https://image.api.playstation.com/vulcan/img/rnd/202011/0714/vuF88yWPSnDfmFJVTyNJpVwW.png",
         urlHorizontal:"https://www.cronista.com/files/image/150/150070/5ff7aff23abf5_950_534!.jpg?s=9653702e959736baba5d97e110862330&d=1667684597",
         previewUrl: "",
         alt: "https://example.com/images/alt-1.jpg"
@@ -127,7 +127,7 @@ export default [
     discountPercentage: 10,
     images: [
       {
-        urlVertical: "https://cherry.img.pmdstatic.net/fit/https.3A.2F.2Fimg.2Egaming.2Egentside.2Ecom.2Fs3.2Ffrgsg.2Fjeux-video.2Fdefault_2020-11-13_fc2023c2-b39b-4d45-bc1b-9573d06cf445.2Ejpeg/1200x675/quality/80/thumbnail.jpg",
+        urlVertical: "https://s2.gaming-cdn.com/images/products/9997/orig-fallback-v1/red-dead-redemption-3-pc-game-cover.jpg?v=1647865982",
         urlHorizontal:"https://areajugones.sport.es/wp-content/uploads/2021/11/red-dead-redemption-3-imagen.jpg",
         previewUrl: "",
         alt: "https://example.com/images/alt-4.jpg"

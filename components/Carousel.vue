@@ -10,6 +10,7 @@
 // 9. Add customizable colors for the indicators.
 // 10. Add accessibility features, keyboard navigation, aria-label with the alt of the image, etc.
 // 11. Make controls positioning customizable.
+import { propertyOf } from 'lodash';
 import { Game } from '~~/types/game';
 
 const props = withDefaults(
@@ -23,6 +24,7 @@ const props = withDefaults(
     containerWidth: 100,
   }
 );
+
 const currentIndex = ref(0);
 const transition = ref('left');
 const transitioning = ref(false);
@@ -44,8 +46,6 @@ function prev() {
   currentIndex.value =
     (currentIndex.value + props.items.length - 1) % props.items.length;
 
-  // Is this a recomended way of doing this? Maybe adding an event listener is better but I have no idea.
-  // Could I add an event listener to the container and not each individual image?
   setTimeout(() => {
     transitioning.value = false;
   }, 500);
@@ -62,46 +62,61 @@ function prev() {
       <transition-group :name="transition" class="relative">
         <NuxtLink
           :to="`/store/${game.id}`"
-          class="flex h-full w-full flex-row"
+          class="flex h-full w-full flex-row gap-10"
           v-for="(game, index) in props.items"
           :key="index"
           v-show="index === currentIndex"
         >
           <img
             :src="game.images[0].urlHorizontal"
-            class="flex h-full w-3/4 object-contain"
+            class="flex h-full object-contain"
           />
-          <div class="align-center m-10 flex w-1/4 flex-col justify-between">
-            <p class="text-white">
+          <div class="align-center my-10 flex flex-col justify-between">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
               {{ game.title }}
-            </p>
+            </h1>
             <div v-if="game.price > 0" class="text-white">
-              <span :class="game.discountPercentage > 0 ? 'line-through' : ''">
+              <span
+                class="text-2xl"
+                :class="game.discountPercentage > 0 ? 'line-through' : ''"
+              >
                 {{ game.price }}$
               </span>
-              <span v-if="game.discountPercentage > 0">
-                {{ (game.price * (game.discountPercentage / 100)).toFixed(2) }}$
+              <span
+                class="dark:text-red text-4xl font-bold text-red-700"
+                v-if="game.discountPercentage > 0"
+              >
+                {{
+                  (
+                    game.price -
+                    game.price * (game.discountPercentage / 100)
+                  ).toFixed(2)
+                }}$
               </span>
             </div>
-            <p
-              v-if="game.price === 0"
-              class="text-white"
-              :class="game.discountPercentage > 0 ? 'line-through' : ''"
+            <div
+              class="flex h-36 w-36 items-center justify-center rounded-full bg-red-800"
             >
-              FREE
-            </p>
-            <p class="text-white">{{ game.discountPercentage }}% dcto</p>
+              <span
+                class="p-2 text-5xl font-bold text-gray-900 dark:text-white"
+              >
+                -{{ game.discountPercentage }}%
+              </span>
+            </div>
           </div>
         </NuxtLink>
       </transition-group>
       <!-- Controls -->
       <button class="controls left-[3%] shadow-2xl" @click="prev">
-        <Icon name="ic:baseline-chevron-left " size="40" />
+        <Icon name="ic:baseline-chevron-left" size="40" class="text-gray-200" />
       </button>
       <button class="controls right-[3%] shadow-2xl" @click="next">
-        <Icon name="ic:baseline-chevron-right" size="40" />
+        <Icon
+          name="ic:baseline-chevron-right"
+          size="40"
+          class="text-gray-200"
+        />
       </button>
-      <!-- indexes -->
     </div>
   </div>
 </template>

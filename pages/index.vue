@@ -8,7 +8,7 @@
       to="store"
       class="max-w-xs self-center rounded border border-gray-400 bg-white py-2 px-4 font-semibold text-gray-800 shadow hover:bg-gray-100"
     >
-      Go to Store
+      Ir a la tienda
     </NuxtLink>
   </div>
 </template>

@@ -9,9 +9,9 @@ const game = getGame(route.params.gameId as string);
   <div>
     <p>Name: {{ game[0].title }}</p>
     <p>Release Date:{{ game[0].releaseDate }}</p>
-    <p>Discount: {{ game[0].discountPercentage }} %</p>
+    <p>Discount: - {{ game[0].discountPercentage }} %</p>
     <p>Price: {{ game[0].price }}$</p>
   </div>
 
-  <NuxtLink to="/store"> Go to Store</NuxtLink>
+  <NuxtLink to="/store">Ir a la tienda</NuxtLink>
 </template>

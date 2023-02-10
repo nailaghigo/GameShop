@@ -1,9 +1,6 @@
-import games from './games';
+import games from './gamesList';
 
 export default (gameId: string) => {
-  console.log('games', games);
-  console.log('gameId', gameId);
-
   return games.filter((game) => {
     return game.id === gameId;
   });
